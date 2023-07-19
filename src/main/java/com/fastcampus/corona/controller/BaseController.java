@@ -17,4 +17,5 @@ public class BaseController implements ErrorController {
     public String error() {
         return "error";
     }
+
 }
