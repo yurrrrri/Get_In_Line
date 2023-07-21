@@ -1,4 +1,4 @@
-package com.fastcampus.corona.api;
+package com.fastcampus.corona.controller.api;
 
 import org.springframework.web.bind.annotation.*;
 
