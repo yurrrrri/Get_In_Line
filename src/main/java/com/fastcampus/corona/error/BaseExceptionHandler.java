@@ -1,11 +1,8 @@
 package com.fastcampus.corona.error;
 
 import com.fastcampus.corona.constant.ErrorCode;
-import com.fastcampus.corona.dto.APIErrorResponse;
 import com.fastcampus.corona.exception.GeneralException;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
