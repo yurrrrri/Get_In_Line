@@ -21,7 +21,6 @@ class BaseControllerTest {
         this.mvc = mvc;
     }
 
-
     @DisplayName("[view] [GET] 기본 페이지 요청")
     @Test
     void givenNothing_whenRequestingRootPage_thenReturnsIndexPage() throws Exception {
