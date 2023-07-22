@@ -17,8 +17,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 class BaseControllerTest {
 
-    @Autowired
-    private MockMvc mvc;
+    private final MockMvc mvc;
+
+    BaseControllerTest(@Autowired MockMvc mvc) {
+        this.mvc = mvc;
+    }
+
 
     @DisplayName("[view] [GET] 기본 페이지 요청")
     @Test
