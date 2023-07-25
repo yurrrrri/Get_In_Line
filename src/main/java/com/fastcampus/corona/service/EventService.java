@@ -2,6 +2,7 @@ package com.fastcampus.corona.service;
 
 import com.fastcampus.corona.constant.EventStatus;
 import com.fastcampus.corona.dto.EventDto;
+import com.fastcampus.corona.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,30 +14,37 @@ import java.util.Optional;
 @Service
 public class EventService {
 
-    public List<EventDto> findEvents(
+    private final EventRepository eventRepository;
+
+    public List<EventDto> getEvents(
             Long placeId,
             String eventName,
             EventStatus eventStatus,
             LocalDateTime eventStartDatetime,
             LocalDateTime eventEndDatetime
     ) {
-        return List.of();
+        return eventRepository.findEvents(
+                placeId,
+                eventName,
+                eventStatus,
+                eventStartDatetime,
+                eventEndDatetime
+        );
     }
 
-    public Optional<EventDto> findEvent(Long eventId) {
-        return Optional.empty();
+    public Optional<EventDto> getEvent(Long eventId) {
+        return eventRepository.findEvent(eventId);
     }
 
-    public boolean createEvent(EventDto dto) {
-        return true;
+    public boolean createEvent(EventDto eventDTO) {
+        return eventRepository.insertEvent(eventDTO);
     }
 
     public boolean modifyEvent(Long eventId, EventDto dto) {
-        return true;
+        return eventRepository.updateEvent(eventId, dto);
     }
 
     public boolean removeEvent(Long eventId) {
-        return true;
+        return eventRepository.deleteEvent(eventId);
     }
-
 }
