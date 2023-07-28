@@ -34,4 +34,5 @@ class BaseControllerTest {
                 .andExpect(view().name("index"))
                 .andDo(print());
     }
+
 }
