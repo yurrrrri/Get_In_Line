@@ -36,8 +36,8 @@ public class EventService {
         return eventRepository.findEvent(eventId);
     }
 
-    public boolean createEvent(EventDto eventDTO) {
-        return eventRepository.insertEvent(eventDTO);
+    public boolean createEvent(EventDto eventDto) {
+        return eventRepository.insertEvent(eventDto);
     }
 
     public boolean modifyEvent(Long eventId, EventDto dto) {
