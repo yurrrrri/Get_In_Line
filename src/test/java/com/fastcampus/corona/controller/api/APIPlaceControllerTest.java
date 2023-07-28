@@ -2,6 +2,7 @@ package com.fastcampus.corona.controller.api;
 
 import com.fastcampus.corona.constant.ErrorCode;
 import com.fastcampus.corona.constant.PlaceType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class APIPlaceControllerTest {
 
     private final MockMvc mvc;
+    private final ObjectMapper mapper;
 
-    APIPlaceControllerTest(@Autowired MockMvc mvc) {
+    APIPlaceControllerTest(@Autowired MockMvc mvc, @Autowired ObjectMapper mapper) {
         this.mvc = mvc;
+        this.mapper = mapper;
     }
 
     @DisplayName("[API][GET] 장소 리스트 조회")

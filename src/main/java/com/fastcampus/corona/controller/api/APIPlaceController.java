@@ -3,6 +3,8 @@ package com.fastcampus.corona.controller.api;
 import com.fastcampus.corona.constant.PlaceType;
 import com.fastcampus.corona.dto.APIDataResponse;
 import com.fastcampus.corona.dto.PlaceDto;
+import com.fastcampus.corona.dto.PlaceRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.List;
 @RestController
 public class APIPlaceController {
 
+    @ResponseStatus(HttpStatus.CREATED)
     @GetMapping("/places")
     public APIDataResponse<List<PlaceDto>> getPlaces() {
         return APIDataResponse.of(List.of(PlaceDto.of(
@@ -23,14 +26,15 @@ public class APIPlaceController {
         )));
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/places")
-    public Boolean createPlace() {
-        return true;
+    public APIDataResponse<Void> createPlace(@RequestBody PlaceRequest placeRequest) {
+        return APIDataResponse.empty();
     }
 
     @GetMapping("/places/{placeId}")
-    public APIDataResponse<PlaceDto> getPlace(@PathVariable Integer placeId) {
-        if (placeId.equals(2)) {
+    public APIDataResponse<PlaceDto> getPlace(@PathVariable Long placeId) {
+        if (placeId.equals(2L)) {
             return APIDataResponse.of(null);
         } // 테스트용 빈 값 출력
 
