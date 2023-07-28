@@ -4,6 +4,7 @@ import com.fastcampus.corona.constant.EventStatus;
 import com.fastcampus.corona.dto.EventDto;
 import com.fastcampus.corona.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -20,8 +21,8 @@ public class EventService {
             Long placeId,
             String eventName,
             EventStatus eventStatus,
-            LocalDateTime eventStartDatetime,
-            LocalDateTime eventEndDatetime
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime eventStartDatetime,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime eventEndDatetime
     ) {
         return eventRepository.findEvents(
                 placeId,

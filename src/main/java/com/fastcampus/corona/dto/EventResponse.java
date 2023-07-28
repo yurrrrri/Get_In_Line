@@ -14,6 +14,7 @@ public record EventResponse(
         Integer capacity,
         String memo
 ) {
+
     public static EventResponse of(
             Long placeId,
             String eventName,
@@ -35,4 +36,20 @@ public record EventResponse(
                 memo
         );
     }
+
+    public static EventResponse from(EventDto dto) {
+        if (dto == null) { return null; }
+
+        return EventResponse.of(
+                dto.getPlaceId(),
+                dto.getEventName(),
+                dto.getEventStatus(),
+                dto.getEventStartDatetime(),
+                dto.getEventEndDatetime(),
+                dto.getCurrentNumberOfPeople(),
+                dto.capacity(),
+                dto.memo()
+        );
+    }
+
 }
