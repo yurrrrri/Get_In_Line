@@ -3,9 +3,11 @@ package com.fastcampus.corona.dto;
 import com.fastcampus.corona.constant.EventStatus;
 import com.fastcampus.corona.domain.Event;
 import com.fastcampus.corona.domain.Place;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
+@Getter
 public record EventDto(
         Long id,
         Long placeId,
@@ -21,7 +23,6 @@ public record EventDto(
 ) {
 
     public static EventDto of(
-            Long id,
             Long placeId,
             String eventName,
             EventStatus eventStatus,
@@ -34,7 +35,7 @@ public record EventDto(
             LocalDateTime modifiedAt
     ) {
         return new EventDto(
-                id,
+                1L,
                 placeId,
                 eventName,
                 eventStatus,
