@@ -51,7 +51,7 @@ public record EventDto(
     public static EventDto of(Event event) {
         return new EventDto(
                 event.getId(),
-                event.getPlaceId(),
+                event.getPlace().getId(),
                 event.getEventName(),
                 event.getEventStatus(),
                 event.getEventStartDatetime(),
@@ -64,9 +64,9 @@ public record EventDto(
         );
     }
 
-    public Event toEntity() {
+    public Event toEntity(Place place) {
         return Event.of(
-                placeId,
+                place,
                 eventName,
                 eventStatus,
                 eventStartDatetime,
@@ -78,7 +78,6 @@ public record EventDto(
     }
 
     public Event updateEntity(Event event) {
-        if (placeId != null) { event.setPlaceId(placeId); }
         if (eventName != null) { event.setEventName(eventName); }
         if (eventStatus != null) { event.setEventStatus(eventStatus); }
         if (eventStartDatetime != null) { event.setEventStartDatetime(eventStartDatetime); }
