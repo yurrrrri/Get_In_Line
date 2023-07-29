@@ -5,6 +5,7 @@ import com.fastcampus.corona.dto.APIDataResponse;
 import com.fastcampus.corona.dto.EventRequest;
 import com.fastcampus.corona.dto.EventResponse;
 import com.fastcampus.corona.service.EventService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
@@ -41,8 +42,10 @@ public class APIEventController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/events")
-    public APIDataResponse<Void> createEvent(@RequestBody EventRequest eventRequest) {
-        return APIDataResponse.empty();
+    public APIDataResponse<String> createEvent(@Valid @RequestBody EventRequest eventRequest) {
+        boolean result = eventService.createEvent(eventRequest.toDto());
+
+        return APIDataResponse.of(Boolean.toString(result));
     }
 
     @GetMapping("/events/{eventId}")
