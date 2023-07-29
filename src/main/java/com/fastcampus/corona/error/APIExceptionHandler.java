@@ -3,6 +3,7 @@ package com.fastcampus.corona.error;
 import com.fastcampus.corona.constant.ErrorCode;
 import com.fastcampus.corona.dto.APIErrorResponse;
 import com.fastcampus.corona.exception.GeneralException;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -15,6 +16,20 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @RestControllerAdvice(annotations = RestController.class)
 public class APIExceptionHandler extends ResponseEntityExceptionHandler {
+
+    @ExceptionHandler
+    public ResponseEntity<Object> general(ConstraintViolationException e, WebRequest request){
+        ErrorCode errorCode = ErrorCode.VALIDATION_ERROR;
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        return super.handleExceptionInternal(
+                e,
+                APIErrorResponse.of(false, errorCode.getCode(), errorCode.getMessage(e)),
+                HttpHeaders.EMPTY,
+                status,
+                request
+        );
+    }
 
     @ExceptionHandler
     public ResponseEntity<Object> general(GeneralException e, WebRequest request){

@@ -5,13 +5,18 @@ import com.fastcampus.corona.dto.APIDataResponse;
 import com.fastcampus.corona.dto.EventRequest;
 import com.fastcampus.corona.dto.EventResponse;
 import com.fastcampus.corona.service.EventService;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Validated
 @RequiredArgsConstructor
 @RequestMapping("/api")
 @RestController
@@ -21,11 +26,11 @@ public class APIEventController {
 
     @GetMapping("/events")
     public APIDataResponse<List<EventResponse>> getEvents(
-            long placeId,
-            String eventName,
+            @Positive Long placeId,
+            @Size(min = 2) String eventName,
             EventStatus eventStatus,
-            LocalDateTime eventStartDatetime,
-            LocalDateTime eventEndDatetime
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime eventStartDatetime,
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime eventEndDatetime
     ) {
         List<EventResponse> response = eventService
                 .getEvents(placeId, eventName, eventStatus, eventStartDatetime, eventEndDatetime)
