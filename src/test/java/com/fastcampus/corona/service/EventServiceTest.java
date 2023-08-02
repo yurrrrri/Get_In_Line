@@ -1,7 +1,9 @@
 package com.fastcampus.corona.service;
 
+import com.fastcampus.corona.constant.ErrorCode;
 import com.fastcampus.corona.constant.EventStatus;
 import com.fastcampus.corona.dto.EventDto;
+import com.fastcampus.corona.exception.GeneralException;
 import com.fastcampus.corona.repository.EventRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,6 +17,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 
@@ -42,6 +46,24 @@ class EventServiceTest {
         // Then
         assertThat(list).hasSize(2);
         then(eventRepository).should().findEvents(null, null, null, null, null);
+    }
+
+    @DisplayName("이벤트를 검색했을 때 에러가 발생한 경우, 프로젝트 기본 에러로 전환하여 에외를 던진다.")
+    @Test
+    void givenDataRelatedException_whenSearchingEvents_thenReturnsGeneralException() {
+        // Given
+        RuntimeException e = new RuntimeException("This is test.");
+        given(eventRepository.findEvents(any(), any(), any(), any(), any()))
+                .willThrow(e);
+
+        // When
+        Throwable thrown = catchThrowable(() -> sut.getEvents(null, null, null, null, null));
+
+        // Then
+        assertThat(thrown)
+                .isInstanceOf(GeneralException.class)
+                .hasMessageContaining(ErrorCode.DATA_ACCESS_ERROR.getMessage());
+        then(eventRepository).should().findEvents(any(), any(), any(), any(), any());
     }
 
     @DisplayName("검색 조건과 함께 이벤트를 검색하면, 검색 결과를 출력하여 보여준다.")

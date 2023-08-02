@@ -1,7 +1,9 @@
 package com.fastcampus.corona.service;
 
+import com.fastcampus.corona.constant.ErrorCode;
 import com.fastcampus.corona.constant.EventStatus;
 import com.fastcampus.corona.dto.EventDto;
+import com.fastcampus.corona.exception.GeneralException;
 import com.fastcampus.corona.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -21,16 +23,20 @@ public class EventService {
             Long placeId,
             String eventName,
             EventStatus eventStatus,
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime eventStartDatetime,
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime eventEndDatetime
+            LocalDateTime eventStartDatetime,
+            LocalDateTime eventEndDatetime
     ) {
-        return eventRepository.findEvents(
-                placeId,
-                eventName,
-                eventStatus,
-                eventStartDatetime,
-                eventEndDatetime
-        );
+        try {
+            return eventRepository.findEvents(
+                    placeId,
+                    eventName,
+                    eventStatus,
+                    eventStartDatetime,
+                    eventEndDatetime
+            );
+        } catch (Exception e) {
+            throw new GeneralException(ErrorCode.DATA_ACCESS_ERROR, e);
+        }
     }
 
     public Optional<EventDto> getEvent(Long eventId) {
