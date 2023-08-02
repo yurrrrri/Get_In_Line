@@ -6,7 +6,6 @@ import com.fastcampus.corona.dto.EventDto;
 import com.fastcampus.corona.exception.GeneralException;
 import com.fastcampus.corona.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
