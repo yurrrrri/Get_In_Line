@@ -6,7 +6,7 @@
 </head>
 <body>
 <p>
-  <span id="eventsTitle" th:text="'이벤트 리스트 조회' ?: _">This is events page.</span>
+  <span id="eventsTitle">This is events page.</span>
 </p>
 <table>
   <thead>
@@ -23,15 +23,15 @@
   </tr>
   </thead>
   <tbody>
-  <tr th:each="event : ${events}">
-    <td class="event-id" th:text="${event.id()}">1</td>
-    <td class="place-id" th:text="${event.placeId()}">1</td>
-    <td class="eventName" th:text="${event.eventName()}">테스트 이벤트</td>
-    <td class="eventStatus" th:text="${event.eventStatus()}">OPENED</td>
-    <td class="eventStartDatetime" th:text="${event.eventStartDatetime()}">2023-01-01 09:00:00</td>
-    <td class="eventEndDatetime" th:text="${event.eventEndDatetime()}">2023-01-01 10:00:00</td>
-    <td class="currentNumberOfPeople" th:text="${event.currentNumberOfPeople()}">0</td>
-    <td class="capacity" th:text="${event.capacity()}">10</td>
+  <tr>
+    <td class="event-id">1</td>
+    <td class="place-id">1</td>
+    <td class="eventName">테스트 이벤트</td>
+    <td class="eventStatus">OPENED</td>
+    <td class="eventStartDatetime">2023-01-01 09:00:00</td>
+    <td class="eventEndDatetime">2023-01-01 10:00:00</td>
+    <td class="currentNumberOfPeople">0</td>
+    <td class="capacity">10</td>
     <td><a href="#">상세</a></td>
   </tr>
   </tbody>
