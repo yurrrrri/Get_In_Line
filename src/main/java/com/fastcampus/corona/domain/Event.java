@@ -30,7 +30,6 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
     @Setter
     @ManyToOne(optional = false)
     private Place place;

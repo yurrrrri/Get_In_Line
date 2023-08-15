@@ -3,11 +3,9 @@ package com.fastcampus.corona.dto;
 import com.fastcampus.corona.constant.EventStatus;
 import com.fastcampus.corona.domain.Event;
 import com.fastcampus.corona.domain.Place;
-import lombok.Getter;
 
 import java.time.LocalDateTime;
 
-@Getter
 public record EventDto(
         Long id,
         Long placeId,
@@ -79,13 +77,27 @@ public record EventDto(
     }
 
     public Event updateEntity(Event event) {
-        if (eventName != null) { event.setEventName(eventName); }
-        if (eventStatus != null) { event.setEventStatus(eventStatus); }
-        if (eventStartDatetime != null) { event.setEventStartDatetime(eventStartDatetime); }
-        if (eventEndDatetime != null) { event.setEventEndDatetime(eventEndDatetime); }
-        if (currentNumberOfPeople != null) { event.setCurrentNumberOfPeople(currentNumberOfPeople); }
-        if (capacity != null) { event.setCapacity(capacity); }
-        if (memo != null) { event.setMemo(memo); }
+        if (eventName != null) {
+            event.setEventName(eventName);
+        }
+        if (eventStatus != null) {
+            event.setEventStatus(eventStatus);
+        }
+        if (eventStartDatetime != null) {
+            event.setEventStartDatetime(eventStartDatetime);
+        }
+        if (eventEndDatetime != null) {
+            event.setEventEndDatetime(eventEndDatetime);
+        }
+        if (currentNumberOfPeople != null) {
+            event.setCurrentNumberOfPeople(currentNumberOfPeople);
+        }
+        if (capacity != null) {
+            event.setCapacity(capacity);
+        }
+        if (memo != null) {
+            event.setMemo(memo);
+        }
 
         return event;
     }

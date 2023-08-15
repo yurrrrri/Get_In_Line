@@ -45,12 +45,12 @@ public record EventResponse(
 
         return EventResponse.of(
                 dto.id(),
-                dto.getPlaceId(),
-                dto.getEventName(),
-                dto.getEventStatus(),
-                dto.getEventStartDatetime(),
-                dto.getEventEndDatetime(),
-                dto.getCurrentNumberOfPeople(),
+                dto.placeId(),
+                dto.eventName(),
+                dto.eventStatus(),
+                dto.eventStartDatetime(),
+                dto.eventEndDatetime(),
+                dto.currentNumberOfPeople(),
                 dto.capacity(),
                 dto.memo()
         );
