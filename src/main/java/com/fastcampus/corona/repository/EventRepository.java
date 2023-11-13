@@ -1,6 +1,7 @@
 package com.fastcampus.corona.repository;
 
 import com.fastcampus.corona.domain.Event;
+import com.fastcampus.corona.domain.QEvent;
 import com.querydsl.core.types.dsl.ComparableExpression;
 import com.querydsl.core.types.dsl.StringExpression;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,9 +14,10 @@ public interface EventRepository extends JpaRepository<Event, Long>,
         QuerydslBinderCustomizer<QEvent> {
 
     @Override
-    void customize(QuerydslBindings bindings, QEvent root) {
+    default void customize(QuerydslBindings bindings, QEvent root) {
         bindings.excludeUnlistedProperties(true);
-        bindings.including(root.placeId, root.eventName, root.eventStatus, root.eventStartDatetime, root.eventEndDatetime);
+        bindings.including(root.place.placeName, root.eventName, root.eventStatus, root.eventStartDatetime, root.eventEndDatetime);
+        bindings.bind(root.place.placeName).first(StringExpression::containsIgnoreCase);
         bindings.bind(root.eventName).first(StringExpression::contains);
         bindings.bind(root.eventStartDatetime).first(ComparableExpression::goe);
         bindings.bind(root.eventEndDatetime).first(ComparableExpression::loe);
