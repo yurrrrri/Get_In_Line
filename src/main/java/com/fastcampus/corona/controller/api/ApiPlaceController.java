@@ -2,8 +2,8 @@ package com.fastcampus.corona.controller.api;
 
 import com.fastcampus.corona.constant.PlaceType;
 import com.fastcampus.corona.dto.APIDataResponse;
-import com.fastcampus.corona.dto.PlaceDto;
 import com.fastcampus.corona.dto.PlaceRequest;
+import com.fastcampus.corona.dto.PlaceResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,10 +14,10 @@ import java.util.List;
 //@RestController
 public class ApiPlaceController {
 
-    @ResponseStatus(HttpStatus.CREATED)
     @GetMapping("/places")
-    public APIDataResponse<List<PlaceDto>> getPlaces() {
-        return APIDataResponse.of(List.of(PlaceDto.of(
+    public APIDataResponse<List<PlaceResponse>> getPlaces() {
+        return APIDataResponse.of(List.of(PlaceResponse.of(
+                1L,
                 PlaceType.COMMON,
                 "랄라배드민턴장",
                 "서울시 강남구 강남대로 1234",
@@ -34,12 +34,13 @@ public class ApiPlaceController {
     }
 
     @GetMapping("/places/{placeId}")
-    public APIDataResponse<PlaceDto> getPlace(@PathVariable Long placeId) {
+    public APIDataResponse<PlaceResponse> getPlace(@PathVariable Long placeId) {
         if (placeId.equals(2L)) {
-            return APIDataResponse.of(null);
-        } // 테스트용 빈 값 출력
+            return APIDataResponse.empty();
+        }
 
-        return APIDataResponse.of(PlaceDto.of(
+        return APIDataResponse.of(PlaceResponse.of(
+                placeId,
                 PlaceType.COMMON,
                 "랄라배드민턴장",
                 "서울시 강남구 강남대로 1234",
@@ -50,13 +51,15 @@ public class ApiPlaceController {
     }
 
     @PutMapping("/places/{placeId}")
-    public Boolean modifyPlace(@PathVariable Integer placeId) {
-        return true;
+    public APIDataResponse<Void> modifyPlace(
+            @PathVariable Long placeId,
+            @RequestBody PlaceRequest placeRequest
+    ) {
+        return APIDataResponse.empty();
     }
 
     @DeleteMapping("/places/{placeId}")
-    public Boolean removePlace(@PathVariable Integer placeId) {
-        return true;
+    public APIDataResponse<Void> removePlace(@PathVariable Long placeId) {
+        return APIDataResponse.empty();
     }
-
 }

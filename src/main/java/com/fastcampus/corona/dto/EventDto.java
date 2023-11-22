@@ -20,6 +20,7 @@ public record EventDto(
 ) {
 
     public static EventDto of(
+            Long id,
             Long placeId,
             String eventName,
             EventStatus eventStatus,
@@ -32,7 +33,7 @@ public record EventDto(
             LocalDateTime modifiedAt
     ) {
         return new EventDto(
-                1L,
+                id,
                 placeId,
                 eventName,
                 eventStatus,
@@ -76,6 +77,9 @@ public record EventDto(
     }
 
     public Event updateEntity(Event event) {
+        if (placeId != null) {
+            event.setPlaceId(placeId);
+        }
         if (eventName != null) {
             event.setEventName(eventName);
         }
