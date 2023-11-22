@@ -2,7 +2,6 @@ package com.fastcampus.corona.dto;
 
 import com.fastcampus.corona.constant.EventStatus;
 import com.fastcampus.corona.domain.Event;
-import com.fastcampus.corona.domain.Place;
 
 import java.time.LocalDateTime;
 
@@ -50,7 +49,7 @@ public record EventDto(
     public static EventDto of(Event event) {
         return new EventDto(
                 event.getId(),
-                event.getPlace().getId(),
+                event.getPlaceId(),
                 event.getEventName(),
                 event.getEventStatus(),
                 event.getEventStartDatetime(),
@@ -63,9 +62,9 @@ public record EventDto(
         );
     }
 
-    public Event toEntity(Place place) {
+    public Event toEntity() {
         return Event.of(
-                place,
+                placeId,
                 eventName,
                 eventStatus,
                 eventStartDatetime,
