@@ -18,7 +18,7 @@ public interface EventRepository extends JpaRepository<Event, Long>,
         bindings.excludeUnlistedProperties(true);
         bindings.including(root.place.placeName, root.eventName, root.eventStatus, root.eventStartDatetime, root.eventEndDatetime);
         bindings.bind(root.place.placeName).first(StringExpression::containsIgnoreCase);
-        bindings.bind(root.eventName).first(StringExpression::contains);
+        bindings.bind(root.eventName).first(StringExpression::containsIgnoreCase);
         bindings.bind(root.eventStartDatetime).first(ComparableExpression::goe);
         bindings.bind(root.eventEndDatetime).first(ComparableExpression::loe);
     }

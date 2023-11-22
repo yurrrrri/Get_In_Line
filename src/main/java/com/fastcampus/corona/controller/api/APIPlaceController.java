@@ -9,8 +9,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/api")
-@RestController
+@Deprecated
+//@RequestMapping("/api")
+//@RestController
 public class APIPlaceController {
 
     @ResponseStatus(HttpStatus.CREATED)

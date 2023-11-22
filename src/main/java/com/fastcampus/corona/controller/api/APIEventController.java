@@ -17,10 +17,11 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Validated
+@Deprecated
 @RequiredArgsConstructor
-@RequestMapping("/api")
-@RestController
+//@Validated
+//@RequestMapping("/api")
+//@RestController
 public class APIEventController {
 
     private final EventService eventService;
