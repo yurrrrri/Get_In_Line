@@ -1,15 +1,26 @@
 package com.fastcampus.corona.domain;
 
 import com.fastcampus.corona.constant.PlaceType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@ToString
+@EqualsAndHashCode
+@Table(indexes = {
+        @Index(columnList = "placeName"),
+        @Index(columnList = "address"),
+        @Index(columnList = "phoneNumber"),
+        @Index(columnList = "createdAt"),
+        @Index(columnList = "modifiedAt")
+})
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 public class Place {
 
@@ -17,14 +28,64 @@ public class Place {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
+    @Column(nullable = false, columnDefinition = "varchar default 'COMMON'")
+    @Enumerated(EnumType.STRING)
     private PlaceType placeType;
+
+    @Setter
+    @Column(nullable = false)
     private String placeName;
+
+    @Setter
+    @Column(nullable = false)
     private String address;
+
+    @Setter
+    @Column(nullable = false)
     private String phoneNumber;
+
+    @Setter
+    @Column(nullable = false, columnDefinition = "integer default 0")
     private Integer capacity;
+
+    @Setter
     private String memo;
 
+    @Column(nullable = false, insertable = false, updatable = false,
+            columnDefinition = "datetime default CURRENT_TIMESTAMP")
+    @CreatedDate
     private LocalDateTime createdAt;
+
+    @Column(nullable = false, insertable = false, updatable = false,
+            columnDefinition = "datetime default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
+    @LastModifiedDate
     private LocalDateTime modifiedAt;
 
+    protected Place(
+            PlaceType placeType,
+            String placeName,
+            String address,
+            String phoneNumber,
+            Integer capacity,
+            String memo
+    ) {
+        this.placeType = placeType;
+        this.placeName = placeName;
+        this.address = address;
+        this.phoneNumber = phoneNumber;
+        this.capacity = capacity;
+        this.memo = memo;
+    }
+
+    public static Place of(
+            PlaceType placeType,
+            String placeName,
+            String address,
+            String phoneNumber,
+            Integer capacity,
+            String memo
+    ) {
+        return new Place(placeType, placeName, address, phoneNumber, capacity, memo);
+    }
 }
