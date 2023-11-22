@@ -12,7 +12,7 @@ import java.util.List;
 @Deprecated
 //@RequestMapping("/api")
 //@RestController
-public class APIPlaceController {
+public class ApiPlaceController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @GetMapping("/places")

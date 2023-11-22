@@ -12,7 +12,7 @@ import static org.springframework.web.servlet.function.RouterFunctions.route;
  * APIPlaceController와 충돌하므로 실행 시 컨트롤러나 라우터의 어노테이션을 주석 처리한다.
  */
 //@Configuration
-public class APIPlaceRouter {
+public class ApiPlaceRouter {
 
 //    @Bean
 //    public RouterFunction<ServerResponse> placeRouter() {
@@ -26,7 +26,7 @@ public class APIPlaceRouter {
 //    }
 
     @Bean
-    public RouterFunction<ServerResponse> placeRouter(APIPlaceHandler apiPlaceHandler) {
+    public RouterFunction<ServerResponse> placeRouter(ApiPlaceHandler apiPlaceHandler) {
         return route().nest(path("/api/places"), builder -> builder
                 .GET("", apiPlaceHandler::getPlaces)
                 .POST("", apiPlaceHandler::createPlace)

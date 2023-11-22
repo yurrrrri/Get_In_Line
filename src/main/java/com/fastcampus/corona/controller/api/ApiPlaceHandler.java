@@ -14,7 +14,7 @@ import static org.springframework.web.servlet.function.ServerResponse.ok;
  * 메서드 구현 시 HandlerFunction을 구현하고 메서드 오버라이딩 한 후에 삭제시켜주면 쉽다.
  */
 @Component
-public class APIPlaceHandler {
+public class ApiPlaceHandler {
 
     public ServerResponse getPlaces(ServerRequest request) {
         return ok().body(List.of("place1", "place2"));

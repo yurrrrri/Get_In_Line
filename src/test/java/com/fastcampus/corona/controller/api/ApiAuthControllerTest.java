@@ -17,13 +17,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Deprecated
 @Disabled
-@WebMvcTest(APIAuthController.class)
-class APIAuthControllerTest {
+@WebMvcTest(ApiAuthController.class)
+class ApiAuthControllerTest {
 
     private final MockMvc mvc;
     private final ObjectMapper mapper;
 
-    public APIAuthControllerTest(
+    public ApiAuthControllerTest(
             @Autowired MockMvc mvc,
             @Autowired ObjectMapper mapper
     ) {

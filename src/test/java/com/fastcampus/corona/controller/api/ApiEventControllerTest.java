@@ -30,15 +30,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Deprecated
 @Disabled
-@WebMvcTest(APIEventController.class)
-class APIEventControllerTest {
+@WebMvcTest(ApiEventController.class)
+class ApiEventControllerTest {
 
     private final MockMvc mvc;
     private final ObjectMapper mapper;
 
     @MockBean private EventService eventService;
 
-    public APIEventControllerTest(
+    public ApiEventControllerTest(
             @Autowired MockMvc mvc,
             @Autowired ObjectMapper mapper
     ) {

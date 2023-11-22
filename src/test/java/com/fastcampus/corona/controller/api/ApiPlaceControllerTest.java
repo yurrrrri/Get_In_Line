@@ -16,13 +16,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @Deprecated
 @Disabled
-@WebMvcTest(APIPlaceController.class)
-class APIPlaceControllerTest {
+@WebMvcTest(ApiPlaceController.class)
+class ApiPlaceControllerTest {
 
     private final MockMvc mvc;
     private final ObjectMapper mapper;
 
-    APIPlaceControllerTest(@Autowired MockMvc mvc, @Autowired ObjectMapper mapper) {
+    ApiPlaceControllerTest(@Autowired MockMvc mvc, @Autowired ObjectMapper mapper) {
         this.mvc = mvc;
         this.mapper = mapper;
     }
