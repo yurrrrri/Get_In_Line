@@ -2,8 +2,10 @@ package com.fastcampus.corona.controller.api;
 
 import com.fastcampus.corona.constant.ErrorCode;
 import com.fastcampus.corona.constant.EventStatus;
+import com.fastcampus.corona.constant.PlaceType;
 import com.fastcampus.corona.dto.EventDto;
 import com.fastcampus.corona.dto.EventResponse;
+import com.fastcampus.corona.dto.PlaceDto;
 import com.fastcampus.corona.service.EventService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Disabled;
@@ -36,7 +38,8 @@ class ApiEventControllerTest {
     private final MockMvc mvc;
     private final ObjectMapper mapper;
 
-    @MockBean private EventService eventService;
+    @MockBean
+    private EventService eventService;
 
     public ApiEventControllerTest(
             @Autowired MockMvc mvc,
@@ -107,7 +110,7 @@ class ApiEventControllerTest {
         // Given
         EventResponse eventResponse = EventResponse.of(
                 1L,
-                1L,
+                createPlaceDto(1L),
                 "오후 운동",
                 EventStatus.OPENED,
                 LocalDateTime.of(2021, 1, 1, 13, 0, 0),
@@ -139,7 +142,7 @@ class ApiEventControllerTest {
         // Given
         EventResponse eventResponse = EventResponse.of(
                 1L,
-                0L,
+                createPlaceDto(1L),
                 "  ",
                 null,
                 null,
@@ -234,7 +237,7 @@ class ApiEventControllerTest {
         long eventId = 1L;
         EventResponse eventResponse = EventResponse.of(
                 eventId,
-                1L,
+                createPlaceDto(1L),
                 "오후 운동",
                 EventStatus.OPENED,
                 LocalDateTime.of(2021, 1, 1, 13, 0, 0),
@@ -267,7 +270,7 @@ class ApiEventControllerTest {
         long eventId = 0L;
         EventResponse eventResponse = EventResponse.of(
                 eventId,
-                0L,
+                createPlaceDto(1L),
                 "  ",
                 null,
                 null,
@@ -325,10 +328,10 @@ class ApiEventControllerTest {
         then(eventService).shouldHaveNoInteractions();
     }
 
-
     private EventDto createEventDTO() {
         return EventDto.of(
                 1L,
+                createPlaceDto(1L),
                 "오후 운동",
                 EventStatus.OPENED,
                 LocalDateTime.of(2021, 1, 1, 13, 0, 0),
@@ -341,4 +344,17 @@ class ApiEventControllerTest {
         );
     }
 
+    private PlaceDto createPlaceDto(Long placeId) {
+        return PlaceDto.of(
+                placeId,
+                PlaceType.COMMON,
+                "배드민턴장",
+                "서울시 가나구 다라동",
+                "010-1111-2222",
+                10,
+                null,
+                LocalDateTime.now(),
+                LocalDateTime.now()
+        );
+    }
 }
