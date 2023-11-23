@@ -38,3 +38,5 @@ out/
 
 ### querydsl
 /src/main/generated
+
+/src/main/resources/application-secret.properties
