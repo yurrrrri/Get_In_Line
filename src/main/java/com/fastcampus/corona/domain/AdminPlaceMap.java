@@ -9,14 +9,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-import static com.fastcampus.corona.domain.QAdmin.admin;
-import static com.fastcampus.corona.domain.QPlace.place;
-
 @Getter
 @ToString
 @Table(indexes = {
-        @Index(columnList = "adminId"),
-        @Index(columnList = "placeId"),
         @Index(columnList = "createdAt"),
         @Index(columnList = "modifiedAt")
 })
@@ -30,12 +25,12 @@ public class AdminPlaceMap {
     private Long id;
 
     @Setter
-    @Column(nullable = false)
-    private Long adminId;
+    @ManyToOne(optional = false)
+    private Admin admin;
 
     @Setter
-    @Column(nullable = false)
-    private Long placeId;
+    @ManyToOne(optional = false)
+    private Place place;
 
     @Column(nullable = false, insertable = false, updatable = false,
             columnDefinition = "datetime default CURRENT_TIMESTAMP")
@@ -47,13 +42,13 @@ public class AdminPlaceMap {
     @LastModifiedDate
     private LocalDateTime modifiedAt;
 
-    protected AdminPlaceMap(Long adminId, Long placeId) {
-        this.adminId = adminId;
-        this.placeId = placeId;
+    protected AdminPlaceMap(Admin admin, Place place) {
+        this.admin = admin;
+        this.place = place;
     }
 
-    public static AdminPlaceMap of(Long adminId, Long placeId) {
-        return new AdminPlaceMap(adminId, placeId);
+    public static AdminPlaceMap of(Admin admin, Place place) {
+        return new AdminPlaceMap(admin, place);
     }
 
     @Override

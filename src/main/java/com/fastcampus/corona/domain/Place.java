@@ -8,7 +8,9 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Getter
 @ToString
@@ -61,6 +63,16 @@ public class Place {
             columnDefinition = "datetime default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP")
     @LastModifiedDate
     private LocalDateTime modifiedAt;
+
+    @ToString.Exclude
+    @OrderBy("id")
+    @OneToMany(mappedBy = "place")
+    private final Set<Event> events = new LinkedHashSet<>();
+
+    @ToString.Exclude
+    @OrderBy("id")
+    @OneToMany(mappedBy = "place")
+    private final Set<AdminPlaceMap> adminPlaceMaps = new LinkedHashSet<>();
 
     protected Place(
             PlaceType placeType,
