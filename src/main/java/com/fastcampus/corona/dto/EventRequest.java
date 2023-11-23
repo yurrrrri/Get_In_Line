@@ -41,8 +41,9 @@ public record EventRequest(
         );
     }
 
-    public EventDto toDto() {
+    public EventDto toDTO() {
         return EventDto.of(
+                null,
                 this.placeId(),
                 this.eventName(),
                 this.eventStatus(),
@@ -55,5 +56,4 @@ public record EventRequest(
                 null
         );
     }
-
 }

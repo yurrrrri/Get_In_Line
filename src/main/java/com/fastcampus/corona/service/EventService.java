@@ -2,9 +2,11 @@ package com.fastcampus.corona.service;
 
 import com.fastcampus.corona.constant.ErrorCode;
 import com.fastcampus.corona.constant.EventStatus;
+import com.fastcampus.corona.domain.Place;
 import com.fastcampus.corona.dto.EventDto;
 import com.fastcampus.corona.exception.GeneralException;
 import com.fastcampus.corona.repository.EventRepository;
+import com.fastcampus.corona.repository.PlaceRepository;
 import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ import java.util.stream.StreamSupport;
 public class EventService {
 
     private final EventRepository eventRepository;
+    private final PlaceRepository placeRepository;
 
     public List<EventDto> getEvents(Predicate predicate) {
         try {
@@ -58,7 +61,9 @@ public class EventService {
                 return false;
             }
 
-            eventRepository.save(eventDTO.toEntity());
+            Place place = placeRepository.findById(eventDTO.placeId())
+                    .orElseThrow(() -> new GeneralException(ErrorCode.NOT_FOUND));
+            eventRepository.save(eventDTO.toEntity(place));
             return true;
         } catch (Exception e) {
             throw new GeneralException(ErrorCode.DATA_ACCESS_ERROR, e);
