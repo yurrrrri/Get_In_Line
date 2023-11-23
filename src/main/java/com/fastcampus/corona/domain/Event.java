@@ -9,10 +9,10 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Getter
 @ToString
-@EqualsAndHashCode
 @Table(indexes = {
         @Index(columnList = "placeId"),
         @Index(columnList = "eventName"),
@@ -26,7 +26,6 @@ import java.time.LocalDateTime;
 @Entity
 public class Event {
 
-    @Setter(AccessLevel.PRIVATE)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -40,7 +39,7 @@ public class Event {
     private String eventName;
 
     @Setter
-    @Column(nullable = false, columnDefinition = "varchar default 'OPENED'")
+    @Column(nullable = false, columnDefinition = "varchar(20) default 'OPENED'")
     @Enumerated(EnumType.STRING)
     private EventStatus eventStatus;
 
@@ -115,5 +114,17 @@ public class Event {
                 capacity,
                 memo
         );
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        return id != null && id.equals(((Event) obj).getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(eventName, eventStartDatetime, eventEndDatetime, createdAt, modifiedAt);
     }
 }

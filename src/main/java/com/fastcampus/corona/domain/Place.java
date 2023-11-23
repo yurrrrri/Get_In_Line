@@ -8,10 +8,10 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Getter
 @ToString
-@EqualsAndHashCode
 @Table(indexes = {
         @Index(columnList = "placeName"),
         @Index(columnList = "address"),
@@ -29,7 +29,7 @@ public class Place {
     private Long id;
 
     @Setter
-    @Column(nullable = false, columnDefinition = "varchar default 'COMMON'")
+    @Column(nullable = false, columnDefinition = "varchar(20) default 'COMMON'")
     @Enumerated(EnumType.STRING)
     private PlaceType placeType;
 
@@ -87,5 +87,17 @@ public class Place {
             String memo
     ) {
         return new Place(placeType, placeName, address, phoneNumber, capacity, memo);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        return id != null && id.equals(((Place) obj).getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(placeName, address, phoneNumber, createdAt, modifiedAt);
     }
 }
