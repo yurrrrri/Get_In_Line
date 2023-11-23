@@ -1,7 +1,7 @@
 package com.fastcampus.corona.error;
 
 import com.fastcampus.corona.constant.ErrorCode;
-import com.fastcampus.corona.dto.APIErrorResponse;
+import com.fastcampus.corona.dto.ApiErrorResponse;
 import com.fastcampus.corona.exception.GeneralException;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
@@ -40,7 +40,7 @@ class ApiExceptionHandlerTest {
 
         // then
         assertThat(response)
-                .hasFieldOrPropertyWithValue("body", APIErrorResponse.of(false, ErrorCode.VALIDATION_ERROR, e))
+                .hasFieldOrPropertyWithValue("body", ApiErrorResponse.of(false, ErrorCode.VALIDATION_ERROR, e))
                 .hasFieldOrPropertyWithValue("headers", HttpHeaders.EMPTY)
                 .hasFieldOrPropertyWithValue("statusCode", HttpStatus.BAD_REQUEST);
     }
@@ -57,7 +57,7 @@ class ApiExceptionHandlerTest {
 
         // then
         assertThat(response)
-                .hasFieldOrPropertyWithValue("body", APIErrorResponse.of(false, errorCode, e))
+                .hasFieldOrPropertyWithValue("body", ApiErrorResponse.of(false, errorCode, e))
                 .hasFieldOrPropertyWithValue("headers", HttpHeaders.EMPTY)
                 .hasFieldOrPropertyWithValue("statusCode", HttpStatus.INTERNAL_SERVER_ERROR);
     }
@@ -73,7 +73,7 @@ class ApiExceptionHandlerTest {
 
         // then
         assertThat(response)
-                .hasFieldOrPropertyWithValue("body", APIErrorResponse.of(false, ErrorCode.INTERNAL_ERROR, e))
+                .hasFieldOrPropertyWithValue("body", ApiErrorResponse.of(false, ErrorCode.INTERNAL_ERROR, e))
                 .hasFieldOrPropertyWithValue("headers", HttpHeaders.EMPTY)
                 .hasFieldOrPropertyWithValue("statusCode", HttpStatus.INTERNAL_SERVER_ERROR);
     }

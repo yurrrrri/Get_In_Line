@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class APIDataResponseTest {
+class ApiDataResponseTest {
 
     @DisplayName("문자열 데이터가 주어지면 표준 성공 응답을 생성한다.")
     @Test
@@ -15,7 +15,7 @@ class APIDataResponseTest {
         String data = "Test data";
 
         // when
-        APIDataResponse<String> response = APIDataResponse.of(data);
+        ApiDataResponse<String> response = ApiDataResponse.of(data);
 
         // then
         assertThat(response)
@@ -31,7 +31,7 @@ class APIDataResponseTest {
         // given
 
         // when
-        APIDataResponse<String> response = APIDataResponse.empty();
+        ApiDataResponse<String> response = ApiDataResponse.empty();
 
         // then
         assertThat(response)

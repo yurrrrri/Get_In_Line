@@ -1,7 +1,7 @@
 package com.fastcampus.corona.controller.api;
 
 import com.fastcampus.corona.constant.EventStatus;
-import com.fastcampus.corona.dto.APIDataResponse;
+import com.fastcampus.corona.dto.ApiDataResponse;
 import com.fastcampus.corona.dto.EventRequest;
 import com.fastcampus.corona.dto.EventResponse;
 import com.fastcampus.corona.service.EventService;
@@ -26,7 +26,7 @@ public class ApiEventController {
     private final EventService eventService;
 
     @GetMapping("/events")
-    public APIDataResponse<List<EventResponse>> getEvents(
+    public ApiDataResponse<List<EventResponse>> getEvents(
             @Positive Long placeId,
             @Size(min = 2) String eventName,
             EventStatus eventStatus,
@@ -37,24 +37,24 @@ public class ApiEventController {
                 .getEvents(placeId, eventName, eventStatus, eventStartDatetime, eventEndDatetime)
                 .stream().map(EventResponse::from).toList();
 
-        return APIDataResponse.of(response);
+        return ApiDataResponse.of(response);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/events")
-    public APIDataResponse<String> createEvent(@Valid @RequestBody EventRequest eventRequest) {
+    public ApiDataResponse<String> createEvent(@Valid @RequestBody EventRequest eventRequest) {
         boolean result = eventService.createEvent(eventRequest.toDto());
 
-        return APIDataResponse.of(Boolean.toString(result));
+        return ApiDataResponse.of(Boolean.toString(result));
     }
 
     @GetMapping("/events/{eventId}")
-    public APIDataResponse<EventResponse> getEvent(@PathVariable Long eventId) {
+    public ApiDataResponse<EventResponse> getEvent(@PathVariable Long eventId) {
         if (eventId.equals(2L)) {
-            return APIDataResponse.empty();
+            return ApiDataResponse.empty();
         }
 
-        return APIDataResponse.of(EventResponse.of(
+        return ApiDataResponse.of(EventResponse.of(
                 1L,
                 1L,
                 "오후 운동",
@@ -68,16 +68,16 @@ public class ApiEventController {
     }
 
     @PutMapping("/events/{eventId}")
-    public APIDataResponse<Void> modifyEvent(
+    public ApiDataResponse<Void> modifyEvent(
             @PathVariable Long eventId,
             @RequestBody EventRequest eventRequest
     ) {
-        return APIDataResponse.empty();
+        return ApiDataResponse.empty();
     }
 
     @DeleteMapping("/events/{eventId}")
-    public APIDataResponse<Void> removeEvent(@PathVariable Long eventId) {
-        return APIDataResponse.empty();
+    public ApiDataResponse<Void> removeEvent(@PathVariable Long eventId) {
+        return ApiDataResponse.empty();
     }
 
 }
