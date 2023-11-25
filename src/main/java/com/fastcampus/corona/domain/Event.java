@@ -30,7 +30,7 @@ public class Event {
     private Long id;
 
     @Setter
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Place place;
 
     @Setter
