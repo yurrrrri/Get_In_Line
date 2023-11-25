@@ -40,3 +40,6 @@ out/
 /src/main/generated
 
 /src/main/resources/application-secret.properties
+
+### Jooq
+/src/main/generated-jooq

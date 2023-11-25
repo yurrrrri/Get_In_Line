@@ -23,7 +23,7 @@ class EventServiceSociableTest {
         // Given
 
         // When
-        List<EventDto> list = sut.getEvents(null, null, null, null, null);
+        List<EventDto> list = sut.getEvents(null);
 
         // Then
         assertThat(list).isEmpty();
