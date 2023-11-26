@@ -12,6 +12,7 @@ import com.fastcampus.corona.repository.EventRepository;
 import com.fastcampus.corona.repository.PlaceRepository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Predicate;
+import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -78,20 +79,20 @@ class EventServiceTest {
         then(eventRepository).should().findAll(any(Predicate.class));
     }
 
-    @DisplayName("이벤트 뷰 데이터를 검색하면 페이징된 결과를 출력하여 보여준다.")
+    @DisplayName("이벤트 뷰 데이터를 검색하면, 페이징된 결과를 출력하여 보여준다.")
     @Test
     void givenNothing_whenSearchingEventViewResponse_thenReturnsEventViewResponsePage() {
-        // given
+        // Given
         given(eventRepository.findEventViewPageBySearchParams(null, null, null, null, null, PageRequest.ofSize(10)))
                 .willReturn(new PageImpl<>(List.of(
                         EventViewResponse.from(EventDto.of(createEvent("오전 운동", true))),
                         EventViewResponse.from(EventDto.of(createEvent("오후 운동", false)))
                 )));
 
-        // when
+        // When
         Page<EventViewResponse> list = sut.getEventViewResponse(null, null, null, null, null, PageRequest.ofSize(10));
 
-        // then
+        // Then
         assertThat(list).hasSize(2);
         then(eventRepository).should().findEventViewPageBySearchParams(null, null, null, null, null, PageRequest.ofSize(10));
     }
@@ -149,7 +150,7 @@ class EventServiceTest {
     void givenEvent_whenCreating_thenCreatesEventAndReturnsTrue() {
         // Given
         EventDto eventDto = EventDto.of(createEvent("오후 운동", false));
-        given(placeRepository.findById(eventDto.placeDto().id())).willReturn(Optional.of(createPlace()));
+        given(placeRepository.getById(eventDto.placeDto().id())).willReturn(createPlace());
         given(eventRepository.save(any(Event.class))).willReturn(any());
 
         // When
@@ -157,7 +158,7 @@ class EventServiceTest {
 
         // Then
         assertThat(result).isTrue();
-        then(placeRepository).should().findById(eventDto.placeDto().id());
+        then(placeRepository).should().getById(eventDto.placeDto().id());
         then(eventRepository).should().save(any(Event.class));
     }
 
@@ -179,38 +180,39 @@ class EventServiceTest {
     @Test
     void givenWrongPlaceId_whenCreating_thenThrowsGeneralException() {
         // Given
-        Event event = createEvent(null, false);
-        given(placeRepository.findById(event.getPlace().getId())).willReturn(Optional.empty());
+        EventDto eventDto = EventDto.of(createEvent("오후 운동", false));
+        given(placeRepository.getById(eventDto.placeDto().id())).willReturn(null);
+        given(eventRepository.save(any(Event.class))).willThrow(EntityNotFoundException.class);
 
         // When
-        Throwable thrown = catchThrowable(() -> sut.createEvent(EventDto.of(event)));
+        Throwable thrown = catchThrowable(() -> sut.createEvent(eventDto));
 
         // Then
         assertThat(thrown)
                 .isInstanceOf(GeneralException.class)
                 .hasMessageContaining(ErrorCode.DATA_ACCESS_ERROR.getMessage());
-        then(placeRepository).should().findById(event.getPlace().getId());
-        then(eventRepository).shouldHaveNoInteractions();
+        then(placeRepository).should().getById(eventDto.placeDto().id());
+        then(eventRepository).should().save(any(Event.class));
     }
 
     @DisplayName("이벤트 생성 중 데이터 예외가 발생하면, 줄서기 프로젝트 기본 에러로 전환하여 예외 던진다")
     @Test
     void givenDataRelatedException_whenCreating_thenThrowsGeneralException() {
         // Given
-        Event event = createEvent(null, false);
+        EventDto eventDto = EventDto.of(createEvent("오후 운동", false));
         RuntimeException e = new RuntimeException("This is test.");
-        given(placeRepository.findById(event.getPlace().getId())).willReturn(Optional.of(createPlace()));
-        given(eventRepository.save(any())).willThrow(e);
+        given(placeRepository.getById(eventDto.placeDto().id())).willReturn(null);
+        given(eventRepository.save(any(Event.class))).willThrow(e);
 
         // When
-        Throwable thrown = catchThrowable(() -> sut.createEvent(EventDto.of(event)));
+        Throwable thrown = catchThrowable(() -> sut.createEvent(eventDto));
 
         // Then
         assertThat(thrown)
                 .isInstanceOf(GeneralException.class)
-                .hasMessageContaining(ErrorCode.DATA_ACCESS_ERROR.getMessage());
-        then(placeRepository).should().findById(event.getPlace().getId());
-        then(eventRepository).should().save(any());
+                .hasMessage(ErrorCode.DATA_ACCESS_ERROR.getMessage(e));
+        then(placeRepository).should().getById(eventDto.placeDto().id());
+        then(eventRepository).should().save(any(Event.class));
     }
 
     @DisplayName("이벤트 ID와 정보를 주면, 이벤트 정보를 변경하고 결과를 true 로 보여준다.")
@@ -380,5 +382,4 @@ class EventServiceTest {
 
         return place;
     }
-
 }
